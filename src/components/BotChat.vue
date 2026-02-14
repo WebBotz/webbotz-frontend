@@ -7,10 +7,11 @@
         </header>
         <main>
             <div className="message-box">
+                <Message v-for="message in messages" :key="message.id" :message="message" :bot="this.bot"></Message>
             </div>
             <div class="message-input">
                 <input placeholder="Write your message here..." maxlength="2048"></input>
-                <img className="button" src="/send_button.png"></img>
+                <img className="button" src="/send_button.png" @click="addMessage"></img>
             </div>
         </main>
         
@@ -18,7 +19,10 @@
 </template>
 
 <script>
+import Message from "./Message.vue";
+
 export default {
+    components: { Message },
     props: {
         bot: {
             type: Object,
@@ -27,7 +31,28 @@ export default {
     },
     data() {
         return {
-            messages: []
+            messages: [
+                {
+                    id: 1,
+                    text: "/start",
+                    by_bot: false
+                },
+                {
+                    id: 2,
+                    text: "Привет, я тестовый бот. Я могу отвечать на твои сообщения, но пока что не умею этого делать xd",
+                    by_bot: true
+                },
+                {
+                    id: 3,
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
+                    by_bot: true
+                },
+                {
+                    id: 4,
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
+                    by_bot: false
+                }
+            ]
         }
     }
 }
@@ -82,6 +107,7 @@ main {
     display: block;
     overflow-y: scroll;
     grid-template-columns: 1fr 7vh;
+    max-width: 100%;
 }
 
 .message-input {
