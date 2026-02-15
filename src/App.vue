@@ -11,7 +11,7 @@ export default {
   components: { BotChat },
   data() {
     return {
-      server_address: "http://localhost:8000",
+      server_address: "http://127.0.0.1:8000",
       activeBot: {
         id: 1,
         name: "Test-овый бот с длинным названием",

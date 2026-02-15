@@ -6,8 +6,9 @@
             <p className="bot-description">{{ this.bot.description }}</p>
         </header>
         <main>
-            <div className="message-box">
+            <div className="message-box" ref="messageBox">
                 <Message v-for="message in messages" :key="message.id" :message="message" :bot="this.bot"></Message>
+                <div ref="bottom-anchor"></div>
             </div>
             <div class="message-input">
                 <input v-model="this.messageInput" placeholder="Write your message here..." maxlength="2048"></input>
@@ -21,6 +22,7 @@
 <script>
 import Message from "./Message.vue";
 import axios from "axios";
+import { ref, nextTick } from 'vue';
 
 export default {
     components: { Message },
@@ -74,6 +76,7 @@ export default {
                 .then(response => {
                     if (response.data.length == 0) return;
                     this.messages = this.messages.concat(response.data);
+                    this.scroll();
                 })
         },
         sendMessage() {
@@ -84,6 +87,13 @@ export default {
                 content: this.messageInput
             });
             this.messageInput = "";
+        },
+        async scroll() {
+            await nextTick();
+            const container = this.$refs.messageBox;
+            if (container) {
+                container.scrollTop = container.scrollHeight;
+            }
         }
     },
     mounted() {
