@@ -1,12 +1,13 @@
 <template>
     <div className="container">
         <header>
-            <img src="/go-back.png" className="go-back">
+            <img src="/go-back.png" className="go-back" @click="setActiveBot(null)">
             <h1 className="bot-name">{{ this.bot.name }}</h1>
             <p className="bot-description">{{ this.bot.description }}</p>
         </header>
         <main>
             <div className="message-box" ref="messageBox">
+                <h3 v-if="this.messages.length == 0" className="no-messages">There are no messages here yet!</h3>
                 <Message v-for="message in messages" :key="message.id" :message="message" :bot="this.bot"></Message>
                 <div ref="bottom-anchor"></div>
             </div>
@@ -27,44 +28,32 @@ import { ref, nextTick } from 'vue';
 export default {
     components: { Message },
     props: {
-        server_address: {
+        serverAddress: {
             type: String,
             required: true
         },
         bot: {
             type: Object,
             required: true
+        },
+        setActiveBot: {
+            type: Function,
+            required: true
         }
     },
     data() {
         return {
-            messages: [
-                {
-                    id: 1,
-                    content: "/start",
-                    by_bot: false
-                },
-                {
-                    id: 2,
-                    content: "Привет, я тестовый бот. Я могу отвечать на твои сообщения, но пока что не умею этого делать xd",
-                    by_bot: true
-                },
-                {
-                    id: 3,
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
-                    by_bot: true
-                },
-                {
-                    id: 4,
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
-                    by_bot: false
-                }
-            ],
+            messages: [],
             messageInput: ""
         }
     },
     methods: {
         getNewMessages() {
+            if (this.bot == null) {
+                this.messages = [];
+                return;
+            }
+
             var lastReceivedId;
             if (this.messages.length == 0) {
                 lastReceivedId = 0;
@@ -72,7 +61,7 @@ export default {
                 lastReceivedId = this.messages[this.messages.length - 1].id;
             }
 
-            axios.get(`${this.server_address}/api/v0/user/messages/${this.bot.id}/${lastReceivedId}`)
+            axios.get(`${this.serverAddress}/api/v0/user/messages/${this.bot.id}/${lastReceivedId}`)
                 .then(response => {
                     if (response.data.length == 0) return;
                     this.messages = this.messages.concat(response.data);
@@ -82,7 +71,7 @@ export default {
         sendMessage() {
             if (this.messageInput == "") return;
 
-            axios.post(`${this.server_address}/api/v0/user/message`, {
+            axios.post(`${this.serverAddress}/api/v0/user/message`, {
                 bot_id: this.bot.id,
                 content: this.messageInput
             });
@@ -97,6 +86,7 @@ export default {
         }
     },
     mounted() {
+        this.getNewMessages();
         setInterval(() => { this.getNewMessages() }, 1000);
     }
 }
@@ -186,5 +176,9 @@ input:focus {
     width: 4vh;
     height: 4vh;
     cursor: pointer;
+}
+
+.no-messages {
+    font-family: "Inter", sans-serif;
 }
 </style>

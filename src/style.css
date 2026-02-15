@@ -18,3 +18,8 @@ body {
   color: white;
   overflow: hidden;
 }
+
+.no-elements {
+    font-family: "Inter", sans-serif;
+    margin: 2vw;
+}

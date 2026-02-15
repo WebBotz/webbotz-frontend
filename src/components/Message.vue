@@ -32,7 +32,7 @@ import BotMessage from './message_types/BotMessage.vue';
     font-family: "Inter", sans-serif;
     font-weight: 500;
     font-size: 1.1em;
-    margin-bottom: 2vh;
+    margin-bottom: 1vh;
 
     word-break: normal;
 }
