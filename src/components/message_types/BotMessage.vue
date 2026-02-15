@@ -1,5 +1,5 @@
 <template>
-    <h3>{{ bot.name }}</h3><p> - {{ message.text }}</p>
+    <h3>{{ bot.name }}</h3><p> - {{ message.content }}</p>
 </template>
 
 <script>

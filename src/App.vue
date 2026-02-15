@@ -1,5 +1,5 @@
 <template>
-  <BotChat :bot="this.activeBot"></BotChat>
+  <BotChat :server_address="this.server_address" :bot="this.activeBot"></BotChat>
 </template>
 
 <style scoped>
@@ -11,6 +11,7 @@ export default {
   components: { BotChat },
   data() {
     return {
+      server_address: "http://localhost:8000",
       activeBot: {
         id: 1,
         name: "Test-овый бот с длинным названием",

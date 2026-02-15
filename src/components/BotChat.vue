@@ -10,8 +10,8 @@
                 <Message v-for="message in messages" :key="message.id" :message="message" :bot="this.bot"></Message>
             </div>
             <div class="message-input">
-                <input placeholder="Write your message here..." maxlength="2048"></input>
-                <img className="button" src="/send_button.png" @click="addMessage"></img>
+                <input v-model="this.messageInput" placeholder="Write your message here..." maxlength="2048"></input>
+                <img className="button" src="/send_button.png" @click="this.sendMessage"></img>
             </div>
         </main>
         
@@ -20,10 +20,15 @@
 
 <script>
 import Message from "./Message.vue";
+import axios from "axios";
 
 export default {
     components: { Message },
     props: {
+        server_address: {
+            type: String,
+            required: true
+        },
         bot: {
             type: Object,
             required: true
@@ -34,26 +39,55 @@ export default {
             messages: [
                 {
                     id: 1,
-                    text: "/start",
+                    content: "/start",
                     by_bot: false
                 },
                 {
                     id: 2,
-                    text: "Привет, я тестовый бот. Я могу отвечать на твои сообщения, но пока что не умею этого делать xd",
+                    content: "Привет, я тестовый бот. Я могу отвечать на твои сообщения, но пока что не умею этого делать xd",
                     by_bot: true
                 },
                 {
                     id: 3,
-                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
+                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
                     by_bot: true
                 },
                 {
                     id: 4,
-                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
+                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.",
                     by_bot: false
                 }
-            ]
+            ],
+            messageInput: ""
         }
+    },
+    methods: {
+        getNewMessages() {
+            var lastReceivedId;
+            if (this.messages.length == 0) {
+                lastReceivedId = 0;
+            } else {
+                lastReceivedId = this.messages[this.messages.length - 1].id;
+            }
+
+            axios.get(`${this.server_address}/api/v0/user/messages/${this.bot.id}/${lastReceivedId}`)
+                .then(response => {
+                    if (response.data.length == 0) return;
+                    this.messages = this.messages.concat(response.data);
+                })
+        },
+        sendMessage() {
+            if (this.messageInput == "") return;
+
+            axios.post(`${this.server_address}/api/v0/user/message`, {
+                bot_id: this.bot.id,
+                content: this.messageInput
+            });
+            this.messageInput = "";
+        }
+    },
+    mounted() {
+        setInterval(() => { this.getNewMessages() }, 1000);
     }
 }
 </script>
