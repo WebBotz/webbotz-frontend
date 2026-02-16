@@ -20,10 +20,11 @@
 .bot-list-row {
     padding: 2vh 2vw 2vh 2vw;
     border-bottom: 1px solid #36393e;
+    background-color: #282b30;
 
     font-family: "Inter", sans-serif;
     cursor: pointer;
-    overflow-y: scroll;
+    word-break: break-all;
 
     transition: 0.5s ease-in-out;
 }
