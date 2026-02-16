@@ -23,6 +23,7 @@
 
     font-family: "Inter", sans-serif;
     cursor: pointer;
+    overflow-y: scroll;
 
     transition: 0.5s ease-in-out;
 }

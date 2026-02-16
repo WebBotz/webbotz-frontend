@@ -129,12 +129,14 @@ main {
     text-align: left;
     display: inline-block;
     margin-right: 1vw;
+    word-break: break-all;
 }
 
 .bot-description {
     font-family: "Inter", sans-serif;
     font-weight: 500;
     display: inline-block;
+    word-break: break-all;
 }
 
 .message-box {
