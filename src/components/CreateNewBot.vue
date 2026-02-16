@@ -7,7 +7,7 @@
         <div v-if="this.stage==0">
             <h2 className="create-new-bot-title">Make a new bot</h2>
             <input v-model="botName" className="input-field" placeholder="Specify a name for the bot" maxlength=32>
-            <input v-model="botDescription" className="input-field" placeholder="Specify the bot description" maxlength=255>
+            <input v-model="botDescription" className="input-field" placeholder="Specify the bot description" maxlength=100>
             <button className="input-field button" @click="createNewBot">Create</button>
         </div>
         <div v-else-if="this.stage===1 && this.botToken === ''">
