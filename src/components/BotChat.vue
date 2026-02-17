@@ -11,9 +11,9 @@
                 <Message v-for="message in messages" :key="message.id" :message="message" :bot="this.bot"></Message>
                 <div ref="bottom-anchor"></div>
             </div>
-            <div class="message-input">
-                <input v-model="this.messageInput" placeholder="Write your message here..." maxlength="2048"></input>
-                <img className="button" src="/send_button.png" @click="this.sendMessage"></img>
+            <div class="message-input-box">
+                <input v-model="this.messageInput" className="message-input" placeholder="Write your message here..." maxlength="2048"></input>
+                <img className="message-send-button" src="/send_button.png" @click="this.sendMessage"></img>
             </div>
         </main>
         
@@ -150,7 +150,7 @@ main {
     max-width: 100%;
 }
 
-.message-input {
+.message-input-box {
     display: grid;
     height: 4vh;
     background-color: #23272a;
@@ -163,7 +163,7 @@ main {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-input {
+.message-input {
     display: inline-block;
     width: 100%;
     height: 100%;
@@ -174,11 +174,11 @@ input {
     font-weight: 500;
 }
 
-input:focus {
+.message-input:focus {
     outline: none;
 }
 
-.button {
+.message-send-button {
     width: 4vh;
     height: 4vh;
     cursor: pointer;
