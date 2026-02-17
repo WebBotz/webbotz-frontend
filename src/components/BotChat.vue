@@ -39,6 +39,10 @@ export default {
         setActiveBot: {
             type: Function,
             required: true
+        },
+        authToken: {
+            type: String,
+            required: true
         }
     },
     data() {
@@ -61,7 +65,7 @@ export default {
                 lastReceivedId = this.messages[this.messages.length - 1].id;
             }
 
-            axios.get(`${this.serverAddress}/api/v0/user/messages/${this.bot.id}/${lastReceivedId}`)
+            axios.get(`${this.serverAddress}/api/v0/user/messages/${this.bot.id}/${lastReceivedId}`, { headers: { "Authorization": `Bearer ${this.authToken}` } })
                 .then(response => {
                     if (response.data.length == 0) return;
                     this.messages = this.messages.concat(response.data);
@@ -74,7 +78,7 @@ export default {
             axios.post(`${this.serverAddress}/api/v0/user/message`, {
                 bot_id: this.bot.id,
                 content: this.messageInput
-            });
+            }, { headers: { "Authorization": `Bearer ${this.authToken}` } });
             this.messageInput = "";
         },
         async scroll() {

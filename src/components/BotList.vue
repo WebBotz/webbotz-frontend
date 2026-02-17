@@ -25,6 +25,10 @@ import axios from 'axios';
             setActiveBot: {
                 type: Function,
                 required: true
+            },
+            authToken: {
+                type: String,
+                required: true
             }
         },
         data() {
@@ -35,7 +39,7 @@ import axios from 'axios';
         },
         methods: {
             updateBotList() {
-                axios.get(`${this.serverAddress}/api/v0/user/bot-list`)
+                axios.get(`${this.serverAddress}/api/v0/user/bot-list`, { headers: { "Authorization": `Bearer ${this.authToken}` } })
                 .then(response => {
                     this.botList = response.data
                 });

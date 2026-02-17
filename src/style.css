@@ -19,3 +19,53 @@ body {
   color: white;
   overflow-x: hidden;
 }
+
+.dark-background-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.centering-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-field {
+    display: block;
+    padding: 2vh 3vw 2vh 3vw;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 1vh;
+    background-color: #1e2124;
+
+    font-family: "Inter", sans-serif;
+    color: white;
+
+    transition: 0.375s ease-out;
+}
+
+.input-field:focus {
+    outline: none;
+    background-color: #212427;
+}
+
+.input-field:hover {
+    background-color: #212427;
+}
+
+.button {
+    display: inline;
+    padding: 1vh 3vw 1vh 3vw;
+}
+
+.overlay-window-text {
+    font-family: "Inter", sans-serif;
+    margin-bottom: 2vh;
+}
